@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Modal, TextInput } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
+import {ethers, BrowserProvider} from "ethers";
+import Token from "../contract/contract.json";
 
 const serverLink = "http://192.168.0.111:9000";
 
@@ -31,25 +33,37 @@ export default function AccountScreen() {
 
   const handleWithdraw = () => {
     setModalVisible(true);
+
   };
 
   const handleConfirmWithdraw = async () => {
     setModalVisible(false);
     try {
-      // Make the POST request to /withdraw
-      const response = await fetch(`${serverLink}/withdraw`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          amt: withdrawAmount,
-          receiverAddress: user.walletAddress,
-        }),
-      });
-      console.log("Made request");
-      const data = await response.text(); // Using text() because the response is plain text
-      console.log(data);
+      // // Make the POST request to /withdraw
+      // const response = await fetch(`${serverLink}/withdraw`, {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({
+      //     amt: withdrawAmount,
+      //     receiverAddress: user.walletAddress,
+      //   }),
+      // });
+      // console.log("Made request");
+      // const data = await response.text(); // Using text() because the response is plain text
+      // console.log(data);
+      const contractAddress = "0xe7Fa40e325fa6f3C86D1c92e42Ba240B9f1dDaB1";
+      console.log("===============KONICHIWA=====================");
+      const provider = new BrowserProvider(window.ethereum);
+      const give = "10";
+      const signer = await provider.getSigner()
+      const movieRev = new ethers.Contract(contractAddress, Token.abi, signer)
+      await (await movieRev.mint(address, ethers.parseUnits("100".toString(), 18))).wait();
+      await (await movieRev.transfer(address, ethers.parseUnits(give.toString(), 18))).wait();
+
+
+
     } catch (error) {
       console.error(error);
     }
@@ -77,7 +91,7 @@ export default function AccountScreen() {
       <TouchableOpacity style={styles.button} onPress={handleWithdraw}>
         <Text style={styles.buttonText}>Withdraw Points</Text>
       </TouchableOpacity>
-      <Text style={{color:"#000"}}>{response}</Text> {/* Display the response from the server */}
+      <Text style={{ color: "#000" }}>{response}</Text> {/* Display the response from the server */}
 
       <Modal visible={modalVisible} transparent={true} animationType="slide">
         <View style={styles.modalContainer}>

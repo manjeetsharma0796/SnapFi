@@ -17,6 +17,7 @@ cd web3
 npm install
 ```
 
-Contract Address : 0xB3Eb92E5B874d722b992cd9b8117BFAA7Df012b5
+Contract Address : 0xe7Fa40e325fa6f3C86D1c92e42Ba240B9f1dDaB1
 
-Build on Polygon Cardona Testnet
+Build on AIA Testnet
+

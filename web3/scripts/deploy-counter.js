@@ -7,7 +7,7 @@
 const hre = require("hardhat");
 
 async function main() {
-  const CounterContractFactory = await hre.ethers.getContractFactory("Counter");
+  const CounterContractFactory = await hre.ethers.getContractFactory("Token");
   const counterContract = await CounterContractFactory.deploy();
 
   await counterContract.deployed();
